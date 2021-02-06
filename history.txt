@@ -1,0 +1,169 @@
+[ec2-user@ip-172-31-16-113 work-dir]$ history
+    1  aws configure
+    2  aws cloudformation create-stack   --stack-name my-eks-vpc-stack   --template-url https://s3.us-west-2.amazonaws.com/amazon-eks/cloudformation/2020-10-29/amazon-eks-vpc-private-subnets.yaml
+    3  vi cluster-role-trust-policy.json
+    4  aws iam create-role   --role-name myAmazonEKSClusterRole   --assume-role-policy-document file://"cluster-role-trust-policy.json"
+    5  aws iam attach-role-policy   --policy-arn arn:aws:iam::aws:policy/AmazonEKSClusterPolicy   --role-name myAmazonEKSClusterRole
+    6  curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl
+    7  chmod +x ./kubectl
+    8  ls -ltr
+    9  mv kubectl /usr/local/bin/
+   10  sudo mv kubectl /usr/local/bin/
+   11  kubectl version --short --client
+   12  aws eks update-kubeconfig   --region us-east-1   --name my-cluster
+   13  kubectl get svc
+   14  vi pod-execution-role-trust-policy.json
+   15  aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
+   16  kubectl get svc
+   17  history
+   18  kubectl get svc
+   19  aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text
+   20  vi cni-role-trust-policy.json
+   21  aws iam create-role   --role-name myAmazonEKSCNIRole   --assume-role-policy-document file://"cni-role-trust-policy.json"
+   22  aws iam attach-role-policy   --policy-arn arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy   --role-name myAmazonEKSCNIRole
+   23  aws eks update-addon   --cluster-name my-cluster   --addon-name vpc-cni   --service-account-role-arn arn:aws:iam::039096978268:role/myAmazonEKSCNIRole
+   24  aws --version
+   25  curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   26  ls -ltr
+   27  unzip awscliv2.zip
+   28  ls -ltr
+   29  sudo ./aws/install
+   30  /usr/local/bin/aws --version
+   31  aws eks update-addon   --cluster-name my-cluster   --addon-name vpc-cni   --service-account-role-arn arn:aws:iam::039096978268:role/myAmazonEKSCNIRole
+   32  vi node-role-trust-policy.json
+   33  aws eks update-addon   --cluster-name my-cluster   --addon-name vpc-cni   --service-account-role-arn arn:aws:iam::039096978268:role/myAmazonEKSCNIRole 
+   34  aws --version
+   35  /usr/local/bin/aws --version
+   36  which aws
+   37  exit
+   38  aws --version
+   39  aws eks update-addon   --cluster-name my-cluster   --addon-name vpc-cni   --service-account-role-arn arn:aws:iam::039096978268:role/myAmazonEKSCNIRole 
+   40  aws iam create-role   --role-name myAmazonEKSNodeRole   --assume-role-policy-document file://"node-role-trust-policy.json"
+   41  aws iam attach-role-policy   --policy-arn arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy   --role-name myAmazonEKSNodeRole
+   42  aws iam attach-role-policy   --policy-arn arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly   --role-name myAmazonEKSNodeRole
+   43  history
+   44  kubectl get nodes
+   45  mkdir work-dir
+   46  cd work-dir/
+   47  ls -ltr
+   48  vi pod.yaml
+   49  kubectl get pods
+   50  kubectl get namespace
+   51  kubectl get ns
+   52  kubectl apply -f pod.yaml
+   53  kubectl get pods
+   54  kubectl get pods --namespace deafult
+   55  kubectl get pods -n deafult
+   56  kubectl get pods -n default
+   57  kubectl get pods --namespace default
+   58  kubectl get pods
+   59  kubectl exec -it demo-pod 
+   60  kubectl exec -it demo-pod bash
+   61  kubectl exec exec -it demo-pod bash
+   62  kubectl kubectl exec -it demo-pod bash
+   63  kubectl exec exec demo-pod bash
+   64  kubectl kubectl exec exec demo-pod bash
+   65  kubectl --help | exec 
+   66  kubectl --help | grep exec 
+   67  kubectl kubectl exec demo-pod bash
+   68  kubectl --help | less
+   69  !
+   70  kubectl kubectl exec demo-pod -- bash
+   71  kubectl kubectl exec demo-pod -- sh
+   72  kubectl exec demo-pod -- sh
+   73  kubectl exec demo-pod -c demo-container  -- 
+   74  kubectl exec demo-pod -c demo-container  -- bash
+   75  kubectl exec demo-pod -c demo-container  -- sh
+   76  kubectl get pods
+   77  kubectl exec demo-pod -c demo-container  -- /bi/sh
+   78  kubectl exec demo-pod -c demo-container  -- /bin/sh
+   79  kubectl delete pod/demo-pod
+   80  kubectl get pods
+   81  kubectl apply -f pod.yaml 
+   82  kubectl get pods
+   83  kubectl exec demo-pod -c demo-container  -- /bin/sh
+   84  kubectl exec demo-pod -c demo-container  -- /bin/bash
+   85  cat pod.yaml 
+   86  kubectl exec demo-pod -c demo-container  -- sh
+   87  kubectl exec demo-pod -c demo-container  -- uptime
+   88  vi pod.yaml 
+   89  kubectl apply -f pod.yaml 
+   90  kubectl get pods
+   91  kubectl exec demo-pod1 -c demo-container1  -- bash
+   92  kubectl exec demo-pod1 -c demo-container1  -- /bin/bash
+   93  kubectl exec demo-pod1 -c demo-container1 /bin/bash
+   94  kubectl exec demo-pod1 -c demo-container1 -- /bin/bash
+   95  kubectl get pods
+   96  kubectl delete pod/demo-pod
+   97  kubectl delete pod/demo-pod1
+   98  vi ReplicaSet.yaml
+   99  kubectl apply -f ReplicaSet.yaml 
+  100  kubectl get replicaset
+  101  kubectl describe replicaset/my-rs
+  102  kubectl get pods
+  103  kubectl describe pod/my-rs-2qkqt
+  104  kubectl describe pod/my-rs-9dvt9
+  105  kubectl get pods
+  106  kubectl delete pod/my-rs-2qkqt
+  107  kubectl get pods
+  108  kubectl edit replicaset/my-rs
+  109  kubectl get pods
+  110* kubectl exec my-rs-9dvt9 /bin/bash
+  111  kubectl describe pod/my-rs-9dvt9
+  112  kubectl port-forward pod/my-rs-9dvt9 80:8080
+  113  kubectl port-forward pod/my-rs-9dvt9 8080:80
+  114  ip addr
+  115  kubectl port-forward pod/my-rs-9dvt9 172.31.16.113:8080:80
+  116  kubectl port-forward pod/my-rs-9dvt9 172.31.16.113:8080:127.0.0.1:80
+  117  kubectl port-forward pod/my-rs-9dvt9 80:8080
+  118  kubectl port-forward pod/my-rs-9dvt9 8080:80
+  119  kubectl get pods
+  120  kubectl scale replicaset my-rs --replicas=2
+  121  kubectl get pods
+  122  kubectl get replicaset
+  123  kubectl delete replicaset/my-rs
+  124  kubectl get replicaset
+  125  kubectl get pods
+  126  vi deployment.yaml
+  127  kubectl apply -f deployment.yaml 
+  128  kubectl get deployments
+  129  kubectl describe deployment/nginx-deployment
+  130  kubectl get replicaset
+  131  kubectl describe replicaset/nginx-deployment-678645bf77
+  132  kubectl get pods
+  133  kubectl describe pod/nginx-deployment-678645bf77-hnh4p
+  134  vi deployment.yaml 
+  135  kubectl get pods
+  136  kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:1.15.4 --record
+  137  kubectl get pods
+  138  kubectl rollout status deployment.v1.apps/nginx-deployment
+  139  kubectl get pods
+  140  kubectl get deployment
+  141  kubectl describe deployment/nginx-deployment
+  142  kubectl get replicaset
+  143  kubectl describe replicaset/nginx-deployment-7c9f54d5f9
+  144  kubectl get pods
+  145  kubectl describe/nginx-deployment-7c9f54d5f9-jgwh4
+  146  kubectl describe pod/nginx-deployment-7c9f54d5f9-jgwh4
+  147  kubectl rollout undo deployment.v1.apps/nginx-deployment
+  148  kubectl get replicaset
+  149  kubectl describe replicaset/nginx-deployment-678645bf77
+  150  vi clusterip.yaml
+  151  cat deployment.yaml 
+  152  cat clusterip.yaml 
+  153  kubectl apply -f clusterip.yaml 
+  154  kubectl get svc
+  155  kubectl delete service/my-service
+  156  vi nodeport.yaml
+  157  kubectl apply -f nodeport.yaml 
+  158  kubectl get svc
+  159  cat nodeport.yaml 
+  160  cat clusterip.yaml 
+  161  kubectl get svc
+  162  kubectl delete service/my-service
+  163  vi loadbalancer.yaml
+  164  kubectl apply -f loadbalancer.yaml 
+  165  kubectl get svc
+  166  ls -ltr
+  167  cat deployment.yaml
+  168  history
