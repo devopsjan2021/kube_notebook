@@ -1,0 +1,181 @@
+
+
+
+
+
+
+
+
+
+vi configmap.yaml
+---
+apiVersion: v1 
+kind: ConfigMap 
+metadata:
+   name: cm-demo
+data:
+   App: web
+   database: jdbc:db:1433/mydb
+   username: admin
+
+
+kubectl get configmap/cm-demo -o yaml
+
+
+kubectl create -f configmap.yaml
+
+
+vi deployment-configmap.yaml
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-configmap-deployment
+  labels:
+    app: nginx-configmap
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-configmap
+  template:
+    metadata:
+      labels:
+        app: nginx-configmap
+    spec:
+      containers:
+      - name: nginx-configmap
+        image: nginx:1.9.1
+        ports:
+        - containerPort: 80
+        env:
+        - name: App
+          valueFrom:
+            configMapKeyRef:
+              name: cm-demo
+              key: App
+
+
+
+
+printenv
+
+App=web
+database=jdbc:db:1433/mydb
+username=admin
+
+
+
+vi  data
+jhhjjhhjds
+sddsdsdsdsf
+ssdsdsdsddsd
+
+kubectl create configmap my-config --from-file=data
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-configmap-deployment
+  labels:
+    app: nginx-configmap
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-configmap
+  template:
+    metadata:
+      labels:
+        app: nginx-configmap
+    spec:
+      containers:
+      - name: nginx-configmap
+        image: nginx:1.9.1
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: my-config
+            mountPath: /usr/src/app/config
+      volumes:
+      - name: my-config
+        configMap:
+          name: my-config
+
+
+
+echo -n 'admin' | base64
+
+echo -n 'devops123' | base64
+
+
+ZGV2b3BzMTIz
+
+
+
+
+vi sec.yaml
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+data:
+  username: YWRtaW4=
+  password: ZGV2b3BzMTIz
+
+
+
+kubectl create -f secret.yaml
+
+kubectl get secret/my-secret -o yaml
+
+
+
+
+
+
+
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-secret-deployment
+  labels:
+    app: nginx-secret-demo
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-secret-demo
+  template:
+    metadata:
+      labels:
+        app: nginx-secret-demo
+    spec:
+      containers:
+      - name: nginx-secret-demo
+        image: nginx:1.9.1
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: my-secret-volume
+            mountPath: /usr/src/app/secret
+          - name: my-config
+            mountPath: /usr/src/app/config
+      volumes:
+      - name: my-config
+        configMap:
+          name: my-config
+      - name: my-secret-volume
+        secret:
+          secretName: my-secret
+
+
+
+
+
+
+
